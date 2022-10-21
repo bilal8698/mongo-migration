@@ -12,9 +12,9 @@ elasticsearch_migration:
        cp files/before_script.sh /tmp/ && chmod +x /tmp/before_script.sh
        . /tmp/before_script.sh        
 
-  #script:  
-  #  - |
-  #     . /tmp/run.sh  
+  script:  
+    - |
+       . /tmp/run.sh  
 
   only:
       - poc
