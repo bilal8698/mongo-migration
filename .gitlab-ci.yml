@@ -2,7 +2,7 @@ include: .vars.yml
 stages:
   - mongodb-migration
 
-elasticsearch_migration:
+mongodb-migration:
   image: 'asia.gcr.io/systems-0001/ansible:ubuntu20.04'
   stage: mongodb-migration
       
