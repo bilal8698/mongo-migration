@@ -1,0 +1,22 @@
+include: .vars.yml
+stages:
+  - mongodb-migration
+
+elasticsearch_migration:
+  image: 'asia.gcr.io/systems-0001/ansible:ubuntu20.04'
+  stage: mongodb-migration
+      
+  
+  before_script:
+    - |
+       cp files/before_script.sh /tmp/ && chmod +x /tmp/before_script.sh
+       . /tmp/before_script.sh        
+
+  #script:  
+  #  - |
+  #     . /tmp/run.sh  
+
+  only:
+      - poc
+  when: manual
+  
