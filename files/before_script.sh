@@ -13,5 +13,5 @@ echo $GOOGLE_APPLICATION_CREDENTIALS | base64 -d > /tmp/service-account.json
 # gcloud auth activate-service-account cmp-discovery-automation@systems-0001.iam.gserviceaccount.com --key-file=/tmp/service-account.json --project=systems-0001
 gcloud auth activate-service-account discovery-automation@systems-0001.iam.gserviceaccount.com --key-file=/tmp/service-account.json --project=rabbit-hole-integration-007
 #gcloud compute os-login ssh-keys add --key-file=/root/.ssh/id_rsa_gojek_key_pub
-gcloud compute instances add-metadata mongo-poc-01 --zone=asia-east1-b --project=rabbit-hole-integration-007 --metadata=enable-oslogin="true"
+gcloud compute instances add-metadata mongo-poc-02 --zone=asia-east1-b --project=rabbit-hole-integration-007 --metadata=enable-oslogin="true"
 cp files/run.sh /tmp/ && chmod 755 /tmp/run.sh
