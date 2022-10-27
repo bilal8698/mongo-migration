@@ -17,3 +17,4 @@ db = client.admin
 replSetConfig=db.command("replSetGetConfig", 1)['config']
 members=replSetConfig['members']
 print(members)
+print(dest)
