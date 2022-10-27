@@ -14,8 +14,8 @@ primaryIP = helloOut['primary'].split(":")[0]
 
 client = MongoClient(primaryIP, 27017)
 db = client.admin
-replSetConfig=db.command("replSetGetConfig", 1)['config']
-members=replSetConfig['members']
+replSetConfig=db.command("replSetGetConfig", 1)
+members=replSetConfig['config']['members']
 
 for item in dest:
     new={}
@@ -25,7 +25,7 @@ for item in dest:
     new['priority'] = 0
     members.append(new)
     
-replSetConfig['members']=members
+replSetConfig['config']['members']=members
 replSetConfig['config']['version'] += 1
 print(replSetConfig)
 
