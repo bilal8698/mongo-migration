@@ -16,5 +16,20 @@ client = MongoClient(primaryIP, 27017)
 db = client.admin
 replSetConfig=db.command("replSetGetConfig", 1)['config']
 members=replSetConfig['members']
-print(members)
-print(dest)
+
+new={}
+
+for item in dest:
+    if new == {} :
+        new['_id'] = members[-1]['_id']+1
+    else:
+        new['_id'] = new[-1]['_id']+1
+    new['host'] = item
+    new['hidden'] = False
+    new['priority'] = 0
+
+members.append(new)
+replSetConfig['members']=members
+replSetConfig['config']['version'] += 1
+print(replSetConfig)
+
