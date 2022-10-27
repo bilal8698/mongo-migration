@@ -1,0 +1,5 @@
+---
+
+- name: "This Play is to Add Destination servers as Mongo Secondary Members"
+  ansible.builtin.import_playbook: setup.yml
+  tags: [ setup ]
