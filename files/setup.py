@@ -39,7 +39,7 @@ def addSecondary():
         new['stateStr']=item['stateStr']
         new['uptime']=item['uptime']
         output[item['name']]=new
-    return output
+    print(output)
 
 if __name__ == "__main__":
     addSecondary()
