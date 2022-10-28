@@ -22,6 +22,6 @@
 
     - name: Print python script executable output
       debug:
-        msg: "{{ output.stdout_lines | from_json }}"
+        msg: "{{ output.stdout_lines[0] | from_json }}"
       
 
