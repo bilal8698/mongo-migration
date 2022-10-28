@@ -35,11 +35,10 @@ def addSecondary():
     output={}
     for item in replSetStatus['members']:
         new={}
-        new['name']=item['name']
         new['health']=item['health']
         new['stateStr']=item['stateStr']
         new['uptime']=item['uptime']
-        output.append(new)
+        output[item['name']]=new
     return output
 
 if __name__ == "__main__":
