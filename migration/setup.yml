@@ -13,8 +13,18 @@
 
     - name: Install the latest pymongo package
       pip: name=pymongo state=latest 
+
+    - name: Check Mongo Cluster Status
+      script:
+        executable: python3
+        cmd: ../files/status.py {{ groups |  to_json | b64encode }}
+      register: output
+
+    - name: Print python script executable output
+      debug:
+        msg: "{{ output.stdout_lines[0] }}"
       
-    - name: Execute python script
+    - name: Execute python script to add Secondary Nodes
       script:
         executable: python3
         cmd: ../files/setup.py {{ groups |  to_json | b64encode }}
