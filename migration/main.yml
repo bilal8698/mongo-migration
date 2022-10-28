@@ -5,5 +5,5 @@
   tags: [ setup ]
 
 - name: "This Play is to Check Mongo Cluster Node Status"
-  ansible.builtin.import_playbook: status.yml
-  tags: [ status ]
+  ansible.builtin.import_playbook: validate.yml
+  tags: [ validate ]
