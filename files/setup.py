@@ -30,9 +30,17 @@ def addSecondary():
         replSetConfig['version'] += 1
         res = db.command('replSetReconfig', replSetConfig)
 
-    time.sleep(120)
+    time.sleep(300)
     replSetStatus=db.command('replSetGetStatus', 1)
-    return replSetStatus['members']
+    output={}
+    for item in replSetStatus['members']:
+        new={}
+        new['name']=item['name']
+        new['health']=item['health']
+        new['stateStr']=item['stateStr']
+        new['uptime']=item['uptime']
+        output.append(new)
+    return output
 
 if __name__ == "__main__":
     addSecondary()
