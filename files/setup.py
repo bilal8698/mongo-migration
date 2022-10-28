@@ -29,5 +29,5 @@ for item in dest:
     res = db.command('replSetReconfig', replSetConfig)
 
 replSetStatus=db.command('replSetGetStatus', 1)
-print(replSetStatus)
+print(replSetStatus['members'])
 
