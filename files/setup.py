@@ -24,12 +24,10 @@ for item in dest:
     new['hidden'] = False
     new['priority'] = 0
     members.append(new)
-    
-replSetConfig['members']=members
-replSetConfig['version'] += 1
+    replSetConfig['members']=members
+    replSetConfig['version'] += 1
+    res = db.command('replSetReconfig', replSetConfig)
 
-res = db.command('replSetReconfig', replSetConfig)
-print(res)
 replSetConfig=db.command("replSetGetConfig", 1)
 print(replSetConfig)
 
