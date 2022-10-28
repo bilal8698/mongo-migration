@@ -28,6 +28,6 @@ for item in dest:
     replSetConfig['version'] += 1
     res = db.command('replSetReconfig', replSetConfig)
 
-replSetConfig=db.command("replSetGetConfig", 1)
-print(replSetConfig)
+replSetStatus=db.command('replSetGetStatus', 1)
+print(replSetStatus)
 
