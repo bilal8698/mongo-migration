@@ -28,8 +28,7 @@ for item in dest:
 replSetConfig['config']['members']=members
 replSetConfig['config']['version'] += 1
 
-db = client.admin
-res = db.comamnd("replSetReconfig", replSetConfig)
+res = db.comamnd('replSetReconfig', replSetConfig)
 print(res)
 replSetConfig=db.command("replSetGetConfig", 1)
 print(replSetConfig)
