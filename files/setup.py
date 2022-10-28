@@ -30,7 +30,7 @@ def addSecondary():
         replSetConfig['version'] += 1
         res = db.command('replSetReconfig', replSetConfig)
 
-    time.sleep(240)
+    time.sleep(180)
     replSetStatus=db.command('replSetGetStatus', 1)
     output={}
     for item in replSetStatus['members']:
