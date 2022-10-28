@@ -20,7 +20,7 @@
         cmd: ../files/status.py {{ groups |  to_json | b64encode }}
       register: output
 
-    - name: Print python script executable output
+    - name: Print Initial Mongo Cluster Member Nodes Status
       debug:
         msg: "{{ output.stdout_lines[0] }}"
       
@@ -30,7 +30,7 @@
         cmd: ../files/setup.py {{ groups |  to_json | b64encode }}
       register: output
 
-    - name: Print python script executable output
+    - name: Print Mongo Cluster Member Nodes Status
       debug:
         msg: "{{ output.stdout_lines[0] }}"
       
