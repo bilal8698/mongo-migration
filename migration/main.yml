@@ -1,0 +1,9 @@
+---
+
+- name: "This Play is to Add Destination servers as Mongo Secondary Members"
+  ansible.builtin.import_playbook: setup.yml
+  tags: [ setup ]
+
+- name: "This Play is to Check Mongo Cluster Node Status"
+  ansible.builtin.import_playbook: validate.yml
+  tags: [ validate ]

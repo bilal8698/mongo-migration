@@ -1,0 +1,7 @@
+---
+
+# variables included in .gitlab-ci.yml
+# Warning: Please read the Readme.md before editing this file. Please do not change without knowledge.
+
+variables:
+  ansibletags: "validate"  ## Stages - setup , validate 
