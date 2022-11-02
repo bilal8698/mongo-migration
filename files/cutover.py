@@ -46,7 +46,6 @@ def cutover():
         new['health']=item['health']
         new['stateStr']=item['stateStr']
         new['uptime']=item['uptime']
-        new['slaveDelay']=item['slaveDelay']
         output[item['name']]=new
     print(output)
 
