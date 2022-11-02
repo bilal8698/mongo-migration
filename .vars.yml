@@ -4,4 +4,4 @@
 # Warning: Please read the Readme.md before editing this file. Please do not change without knowledge.
 
 variables:
-  ansibletags: "cutover"  ## Stages - setup , validate 
+  ansibletags: "validate"  ## Stages - setup, validate, cutover
