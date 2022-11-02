@@ -24,7 +24,7 @@ def cutover():
     saddr=socket.gethostbyaddr(toBePrimary)
 
     for item in members:
-        if saddr[0] in item['name'] or saddr[2] in item['name']:
+        if saddr[0] in item['host'] or saddr[2] in item['host']:
             item['priority'] = 2
             break
 
