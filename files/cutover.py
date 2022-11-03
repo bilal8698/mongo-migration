@@ -71,6 +71,14 @@ def resetPriority():
         replSetConfig['members']=members
         replSetConfig['version'] += 1
         res = db.command('replSetReconfig', replSetConfig)
+
+        replSetStatus=db.command('replSetGetStatus', 1)
+        for item in replSetStatus['members']:
+            new={}
+            new['health']=item['health']
+            new['stateStr']=item['stateStr']
+            new['uptime']=item['uptime']
+            output[item['name']]=new
         return output
     else:
         resetPriority()

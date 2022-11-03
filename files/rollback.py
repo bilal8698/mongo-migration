@@ -61,20 +61,22 @@ def resetPriority():
         replSetConfig=db.command("replSetGetConfig", 1)['config']
         members=replSetConfig['members']
         for item in members:
-            new={}
             if saddr[0] in item['host'] or ''.join(saddr[2]) in item['host']:
                 item['priority'] = priority() - 1
+        replSetConfig['members']=members
+        replSetConfig['version'] += 1
+        res = db.command('replSetReconfig', replSetConfig)
+
+        replSetStatus=db.command('replSetGetStatus', 1)
+        for item in replSetStatus['members']:
+            new={}
             new['health']=item['health']
             new['stateStr']=item['stateStr']
             new['uptime']=item['uptime']
             output[item['name']]=new
-        replSetConfig['members']=members
-        replSetConfig['version'] += 1
-        res = db.command('replSetReconfig', replSetConfig)
         return output
     else:
         resetPriority()
-
     
 
 if __name__ == "__main__":
