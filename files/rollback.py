@@ -14,6 +14,7 @@ saddr=socket.gethostbyaddr(toBePrimary)
 primary=''
 
 def rollback():
+    global primary
     client = MongoClient('0.0.0.0', 27017)
     db = client.admin
     helloOut = db.command("hello")
