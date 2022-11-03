@@ -38,6 +38,7 @@ def rollback():
 
 
 def priority():
+    global primary
     client = MongoClient(primary, 27017)
     db = client.admin
     replSetConfig=db.command("replSetGetConfig", 1)['config']
@@ -47,6 +48,7 @@ def priority():
             return item['priority']
 
 def resetPriority():
+    global primary
     time.sleep(180)
     output={}
     client = MongoClient(primary, 27017)
