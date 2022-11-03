@@ -9,6 +9,7 @@ out = base64.b64decode(sys.argv[1])
 hosts=json.loads(out)
 src=hosts['src']
 toBePrimary = src[0]
+print(toBePrimary)
 
 def rollback():
     client = MongoClient('0.0.0.0', 27017)
