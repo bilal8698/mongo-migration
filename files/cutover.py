@@ -54,8 +54,9 @@ def resetPriority():
     client = MongoClient(primary, 27017)
     db = client.admin
     helloOut = db.command("hello")
-    if toBePrimary ==  helloOut['primary'].split(":")[0]:
-        primary = helloOut['primary'].split(":")[0]
+    primary = helloOut['primary'].split(":")[0]
+    paddr=socket.gethostbyaddr(primary)
+    if toBePrimary in paddr[0] or toBePrimary in ''.join(paddr[2]) :
         client = MongoClient(primary, 27017)
         db = client.admin
         replSetConfig=db.command("replSetGetConfig", 1)['config']
