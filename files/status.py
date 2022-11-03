@@ -14,9 +14,14 @@ def status():
     output={}
     for item in replSetStatus['members']:
         new={}
-        new['health']=item['health']
+        if item['health'] == 0:
+            new['health']="DOWN"
+        else:
+            new['health']="UP"
         new['stateStr']=item['stateStr']
         new['uptime']=item['uptime']
+        if item['lastHeartbeatMessage'] != "":
+            new['lastHeartbeatMessage'] = item['lastHeartbeatMessage']
         output[item['name']]=new
     print(output)
 
