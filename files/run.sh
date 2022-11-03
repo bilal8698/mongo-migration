@@ -12,4 +12,7 @@ case "$ansibletags" in
     "cutover")
         ansible-playbook  -f 10 -i migration/hosts migration/main.yml --tags cutover
         ;;
+    "rollback")
+        ansible-playbook  -f 10 -i migration/hosts migration/main.yml --tags cutover
+        ;;
 esac
