@@ -27,7 +27,7 @@
     - name: DATA VALIDATION PASSED
       debug:
         msg: "DATA VALIDATION PASSED Successfully"
-      when: '"PASSED" in output.stdout'
+      when: '"FAILED" not in output.stdout'
 
     - name: DATA VALIDATION FAILED
       fail:
