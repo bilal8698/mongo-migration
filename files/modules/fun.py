@@ -1,0 +1,70 @@
+import sys
+import json
+import base64
+import socket
+import time
+from pymongo import MongoClient
+
+def switch(primary, saddr, toBePrimary):
+    client = MongoClient('0.0.0.0', 27017)
+    db = client.admin
+    helloOut = db.command("hello")
+    primary = helloOut['primary'].split(":")[0]
+
+    client = MongoClient(primary, 27017)
+    db = client.admin
+    replSetConfig=db.command("replSetGetConfig", 1)['config']
+    members=replSetConfig['members']
+
+    for item in members:
+        if saddr[0] in item['host'] or ''.join(saddr[2]) in item['host']:
+            item['priority'] = priority() + 1
+            break
+
+    replSetConfig['members']=members
+    replSetConfig['version'] += 1
+    res = db.command('replSetReconfig', replSetConfig)
+    output=resetPriority(primary, saddr, toBePrimary)
+    print(output)
+
+
+def priority():
+    global primary
+    client = MongoClient(primary, 27017)
+    db = client.admin
+    replSetConfig=db.command("replSetGetConfig", 1)['config']
+    members=replSetConfig['members']
+    for item in members:
+        if primary in item['host']:
+            return item['priority']
+
+def resetPriority(primary, saddr, toBePrimary):
+    time.sleep(180)
+    output={}
+    client = MongoClient(primary, 27017)
+    db = client.admin
+    helloOut = db.command("hello")
+    primary = helloOut['primary'].split(":")[0]
+    paddr=socket.gethostbyaddr(primary)
+    if toBePrimary in paddr[0] or toBePrimary in ''.join(paddr[2]) :
+        client = MongoClient(primary, 27017)
+        db = client.admin
+        replSetConfig=db.command("replSetGetConfig", 1)['config']
+        members=replSetConfig['members']
+        for item in members:
+            if saddr[0] in item['host'] or ''.join(saddr[2]) in item['host']:
+                item['priority'] = priority() - 1
+        replSetConfig['members']=members
+        replSetConfig['version'] += 1
+        res = db.command('replSetReconfig', replSetConfig)
+
+        replSetStatus=db.command('replSetGetStatus', 1)
+        for item in replSetStatus['members']:
+            new={}
+            new['health']=item['health']
+            new['stateStr']=item['stateStr']
+            new['uptime']=item['uptime']
+            output[item['name']]=new
+        return output
+    else:
+        resetPriority()
