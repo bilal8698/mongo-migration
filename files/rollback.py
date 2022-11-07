@@ -2,7 +2,7 @@ import sys
 import json
 import base64
 import time
-from files.modules.promotePrimary import mongoPrimary 
+from modules.promotePrimary import mongoPrimary 
 from pymongo import MongoClient
 
 out = base64.b64decode(sys.argv[1])
