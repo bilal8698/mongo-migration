@@ -3,7 +3,7 @@ import json
 import base64
 import socket
 import time
-from modules.fun import switch
+from ..files.modules.fun import switch
 from pymongo import MongoClient
 
 out = base64.b64decode(sys.argv[1])
