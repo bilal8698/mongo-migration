@@ -23,3 +23,14 @@
     - name: Mongo Cluster Data Validation Status 
       debug:
         msg: "{{ output.stdout_lines[0] }}"
+
+    - name: DATA VALIDATION PASSED
+      debug:
+        msg: "DATA VALIDATION PASSED Successfully"
+      when: '"PASSED" in output.stdout'
+
+    - name: DATA VALIDATION FAILED
+      fail:
+        msg: "DATA VALIDATION FAILED"
+      when: '"FAILED" in output.stdout'
+

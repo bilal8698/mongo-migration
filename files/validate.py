@@ -14,6 +14,8 @@ def validate():
 
     clientsrc = MongoClient(src, 27017)
     clientdest = MongoClient(dest, 27017)
+    output={}
+    output['Database Nmae']='MD5 Hash'
 
     for database in clientsrc.list_databases():
             dbsrc[database['name']] = database
@@ -33,8 +35,11 @@ def validate():
         if ressrc['md5'] != resdest['md5']:
             print("Database "+name+" md5 hash does not match for Source "+src+" and Destination "+dest+" Mongo Node - Data Validation FAILED")
             return
+        else:
+            output[name]=ressrc['md5']
         
-    print("Data Validation Successful")
+    print(output)
+    
 
 if __name__ == "__main__":
     validate()
