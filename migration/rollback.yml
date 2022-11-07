@@ -22,7 +22,7 @@
         mode: 0777
 
     - name: Execute Mongo Rollback Script
-      command: python3 /tmp/mongo-migration/files/cutover.py {{ groups |  to_json | b64encode }}
+      command: python3 /tmp/mongo-migration/files/rollback.py {{ groups |  to_json | b64encode }}
       become: true
       register: output
 
