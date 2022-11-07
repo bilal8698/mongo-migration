@@ -14,12 +14,12 @@
     - name: Install the latest pymongo package
       pip: name=pymongo state=latest 
 
-    - name: Check Mongo Cluster Nodes Status
+    - name: Mongo Cluster Data Validation
       script:
         executable: python3
         cmd: ../files/validate.py {{ groups |  to_json | b64encode }}
       register: output
 
-    - name: Print Mongo Cluster Member Nodes Status
+    - name: Mongo Cluster Data Validation Status 
       debug:
-        msg: "{{ output.stdout_lines[0] }}"
+        msg: "{{ output }}"
