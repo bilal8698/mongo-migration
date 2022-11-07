@@ -24,7 +24,8 @@ def validate():
             dbdest[database['name']] = database
     
     if set(dbsrc.keys()) != set(dbdest.keys()):
-        return "Mismatch between Databases in Source and Destination Nodes"
+        print("Mismatch between Databases in Source and Destination Nodes")
+        return
 
     for name in dbsrc.keys():
         dbsrc=clientsrc[name]
@@ -32,12 +33,14 @@ def validate():
         ressrc=dbsrc.command( "dbHash" , 1 )
         resdest=dbdest.command( "dbHash" , 1 )
         if set(ressrc['collections'].keys()) != set(resdest['collections'].keys()):
-            return "Mismatch between Collections for "+name+" Database in Source and Destination Nodes"
+            print("Mismatch between Collections for "+name+" Database in Source and Destination Nodes")
+            return
         for col in ressrc['collections']:
             if ressrc['collections'][col] != resdest['collections'][col]:
-                return "Collection Hash Mismatch - "+col+" Collection, Database - "+name
+                print("Collection Hash Mismatch - "+col+" Collection, Database - "+name)
+                return
         
-    return "Data Validation Successful"
+    print("Data Validation Successful")
 
 if __name__ == "__main__":
     validate()

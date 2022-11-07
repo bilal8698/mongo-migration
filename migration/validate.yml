@@ -22,4 +22,4 @@
 
     - name: Mongo Cluster Data Validation Status 
       debug:
-        msg: "{{ output }}"
+        msg: "{{ output.stdout_lines[0] }}"
