@@ -26,8 +26,7 @@ def validate():
     if set(dbsrc.keys()) != set(dbdest.keys()):
         return "Mismatch between Databases in Source and Destination Nodes"
 
-    for database in dbsrc.keys():
-        name=database['name']
+    for name in dbsrc.keys():
         dbsrc=clientsrc[name]
         dbdest=clientdest[name]
         ressrc=dbsrc.command( "dbHash" , 1 )
