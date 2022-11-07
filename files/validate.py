@@ -16,15 +16,13 @@ def validate():
     clientdest = MongoClient(dest, 27017)
 
     for database in clientsrc.list_databases():
-        if 'admin' not in database['name'] and 'config' not in database['name'] and 'local' not in database['name']:
             dbsrc[database['name']] = database
     
     for database in clientdest.list_databases():
-        if 'admin' not in database['name'] and 'config' not in database['name'] and 'local' not in database['name']:
             dbdest[database['name']] = database
     
     if set(dbsrc.keys()) != set(dbdest.keys()):
-        print("Mismatch between Databases in Source and Destination Nodes")
+        print("Mismatch between Databases in Source and Destination Nodes - Data Validation FAILED")
         return
 
     for name in dbsrc.keys():
@@ -32,13 +30,9 @@ def validate():
         dbdest=clientdest[name]
         ressrc=dbsrc.command( "dbHash" , 1 )
         resdest=dbdest.command( "dbHash" , 1 )
-        if set(ressrc['collections'].keys()) != set(resdest['collections'].keys()):
-            print("Mismatch between Collections for "+name+" Database in Source and Destination Nodes")
+        if ressrc['md5'] != resdest['md5']:
+            print("Database "+name+" md5 hash does not match for Source "+src+" and Destination "+dest+" Mongo Node - Data Validation FAILED")
             return
-        for col in ressrc['collections']:
-            if ressrc['collections'][col] != resdest['collections'][col]:
-                print("Collection Hash Mismatch - "+col+" Collection, Database - "+name)
-                return
         
     print("Data Validation Successful")
 
