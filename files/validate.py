@@ -15,7 +15,7 @@ def validate():
     clientsrc = MongoClient(src, 27017)
     clientdest = MongoClient(dest, 27017)
     output={}
-    output['Database Nmae']='MD5 Hash'
+    output['Database Name']='MD5 Hash'
 
     for database in clientsrc.list_databases():
             dbsrc[database['name']] = database
@@ -39,7 +39,7 @@ def validate():
             output[name]=ressrc['md5']
         
     print(output)
-    
+
 
 if __name__ == "__main__":
     validate()
