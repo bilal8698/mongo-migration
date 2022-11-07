@@ -30,6 +30,7 @@
       file:
         state: absent
         path: /tmp/mongo-migration/ 
+      become: true
 
     - name: Print Mongo Cluster Member Nodes Status
       debug:
