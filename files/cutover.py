@@ -1,17 +1,15 @@
 import sys
 import json
 import base64
-import socket
 import time
-from ..files.modules.fun import switch
+from modules.promotePrimary import mongoPrimary
 from pymongo import MongoClient
 
 out = base64.b64decode(sys.argv[1])
 hosts=json.loads(out)
 dest=hosts['dest']
 toBePrimary = dest[0]
-saddr=socket.gethostbyaddr(toBePrimary)
 primary=''
 
 if __name__ == "__main__":
-    switch(primary, saddr, toBePrimary)
+    mongoPrimary(primary, toBePrimary)
