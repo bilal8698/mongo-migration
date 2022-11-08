@@ -15,6 +15,7 @@ def validate():
     clientsrc = MongoClient(src, 27017)
     clientdest = MongoClient(dest, 27017)
     output={}
+    output['Database Name']={ 'Source': 'Source MD5 Hash', 'Destination':'Destination MD5 Hash' }
 
     for database in clientsrc.list_databases():
             dbsrc[database['name']] = database
