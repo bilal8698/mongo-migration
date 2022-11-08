@@ -36,7 +36,7 @@ def validate():
             print("Database "+name+" md5 hash does not match for Source "+src+" and Destination "+dest+" Mongo Node - Data Validation FAILED")
             return
         else:
-            output[name]={ ressrc['md5'] , resdest['md5'] }
+            output[name]={ "Source" : ressrc['md5'] , "Destination" : resdest['md5'] }
         
     print(output)
 
