@@ -17,6 +17,6 @@ mongodb-migration:
        . /tmp/run.sh  
 
   only:
-      - poc
+      - poc-cutover
   when: manual
   

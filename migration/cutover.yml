@@ -1,0 +1,37 @@
+---
+- name: Setup
+  hosts: dest[0]
+  tasks:
+    - name: Ensure python3 and python3-pip is present
+      ansible.builtin.package:
+        name: 
+          - python3
+          - python3-pip
+        state: present
+      become: true
+      become_user: root
+
+    - name: Install the latest pymongo package
+      pip: name=pymongo state=latest 
+
+    - name: Copy Mongo Cutover Scripts
+      become: true 
+      copy:
+        src: ../files
+        dest: /tmp/mongo-migration/       
+        mode: 0777
+
+    - name: Execute Mongo Cutover Script
+      command: python3 /tmp/mongo-migration/files/cutover.py {{ groups |  to_json | b64encode }}
+      become: true
+      register: output
+
+    - name: Delete Copied Mongo Cluster Cutover Scripts
+      file:
+        state: absent
+        path: /tmp/mongo-migration/ 
+      become: true
+
+    - name: Print Mongo Cluster Member Nodes Status
+      debug:
+        msg: "{{ output.stdout_lines[0] }}"
