@@ -2,8 +2,6 @@ import sys
 import json
 import base64
 import time
-
-from django.shortcuts import redirect
 from pymongo import MongoClient
 
 def validate():
