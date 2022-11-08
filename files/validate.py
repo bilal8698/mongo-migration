@@ -26,6 +26,11 @@ def validate():
     if set(dbsrc.keys()) != set(dbdest.keys()):
         print("Mismatch between Databases in Source and Destination Nodes - Data Validation FAILED")
         return
+    else:
+        for db in set(dbsrc.keys()):
+            if dbsrc[db]['sizeOnDisk'] != dbdest[db]['sizeOnDisk']:
+                print("Mismatch between sizeOnDisk for Database "+db+" in Source "+src+"  and Destination Nodes "+dest+" - Data Validation FAILED")
+                return
 
     for name in dbsrc.keys():
         dbsrc=clientsrc[name]
