@@ -2,6 +2,8 @@ import sys
 import json
 import base64
 import time
+
+from django.shortcuts import redirect
 from pymongo import MongoClient
 
 def validate():
@@ -15,7 +17,7 @@ def validate():
     clientsrc = MongoClient(src, 27017)
     clientdest = MongoClient(dest, 27017)
     output={}
-    output['Database Name']='MD5 Hash'
+    output['Database Name']={ 'Source MD5 Hash', 'Destination MD5 Hash' }
 
     for database in clientsrc.list_databases():
             dbsrc[database['name']] = database
@@ -36,7 +38,7 @@ def validate():
             print("Database "+name+" md5 hash does not match for Source "+src+" and Destination "+dest+" Mongo Node - Data Validation FAILED")
             return
         else:
-            output[name]=ressrc['md5']
+            output[name]={ ressrc['md5'] , resdest['md5'] }
         
     print(output)
 
