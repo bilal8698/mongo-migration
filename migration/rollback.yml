@@ -14,11 +14,23 @@
     - name: Install the latest pymongo package
       pip: name=pymongo state=latest 
 
-    - name: Rollback Mongo Cluster Primary Node
-      script:
-        executable: python3
-        cmd: ../files/rollback.py {{ groups |  to_json | b64encode }}
+    - name: Copy Mongo Cluster Rollback Scripts
+      become: true 
+      copy:
+        src: ../files
+        dest: /tmp/mongo-migration/       
+        mode: 0777
+
+    - name: Execute Mongo Rollback Script
+      command: python3 /tmp/mongo-migration/files/rollback.py {{ groups |  to_json | b64encode }}
+      become: true
       register: output
+
+    - name: Delete Copied Mongo Cluster Rollback Scripts
+      file:
+        state: absent
+        path: /tmp/mongo-migration/ 
+      become: true
 
     - name: Print Mongo Cluster Member Nodes Status
       debug:
