@@ -6,11 +6,14 @@ case "$ansibletags" in
     "setup")
         ansible-playbook  -f 10 -i migration/hosts migration/main.yml --tags setup
         ;;
-    "validate")
-        ansible-playbook  -f 10 -i migration/hosts migration/main.yml --tags validate
+    "status")
+        ansible-playbook  -f 10 -i migration/hosts migration/main.yml --tags status
         ;;
     "cutover")
         ansible-playbook  -f 10 -i migration/hosts migration/main.yml --tags cutover
+        ;;
+    "validate")
+        ansible-playbook  -f 10 -i migration/hosts migration/main.yml --tags validate
         ;;
     "rollback")
         ansible-playbook  -f 10 -i migration/hosts migration/main.yml --tags rollback
