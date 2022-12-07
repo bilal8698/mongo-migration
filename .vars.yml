@@ -4,5 +4,5 @@
 # Warning: Please read the Readme.md before editing this file. Please do not change without knowledge.
 
 variables:
-  ansibletags: "rollback"  ## Stages - setup, status, validate, cutover, rollback
+  ansibletags: "setup"  ## Stages - setup, validate, cutover, datavalidation, rollback
 

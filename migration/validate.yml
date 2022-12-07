@@ -1,5 +1,5 @@
 ---
-- name: Validate
+- name: Setup
   hosts: dest[0]
   tasks:
     - name: Ensure python3 and python3-pip is present
@@ -14,23 +14,12 @@
     - name: Install the latest pymongo package
       pip: name=pymongo state=latest 
 
-    - name: Mongo Cluster Data Validation
+    - name: Check Mongo Cluster Nodes Status
       script:
         executable: python3
-        cmd: ../files/validate.py {{ groups |  to_json | b64encode }}
+        cmd: ../files/status.py {{ groups |  to_json | b64encode }}
       register: output
 
-    - name: Mongo Cluster Data Validation Status 
+    - name: Print Mongo Cluster Member Nodes Status
       debug:
         msg: "{{ output.stdout_lines[0] }}"
-
-    - name: DATA VALIDATION PASSED
-      debug:
-        msg: "DATA VALIDATION PASSED Successfully"
-      when: '"FAILED" not in output.stdout'
-
-    - name: DATA VALIDATION FAILED
-      fail:
-        msg: "DATA VALIDATION FAILED"
-      when: '"FAILED" in output.stdout'
-

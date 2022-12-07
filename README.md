@@ -11,7 +11,7 @@ Sample ".vars.yml"
 ---
 variables:
 
-  ansibletags:    "validate" # Ansible tags.Fill one of setup, validate, cutover, rollback
+  ansibletags:    "validate" # Ansible tags.Fill one of setup, validate, cutover, datavalidate, rollback
   
 ```     
 
@@ -41,6 +41,12 @@ Mandatory variables are marked '*' before the variable name.
     ansibletags: "cutover"
 
     Step Down the master and promote one of the destination nodes as Primary Node to the Cluster.
+
+#### DataValidation
+
+    ansibletags: "datavalidate"
+
+    Mongo Cluster Data Validation using MD5 Hash Comparison.
 
 #### Rollback
 

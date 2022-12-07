@@ -4,17 +4,17 @@
   ansible.builtin.import_playbook: setup.yml
   tags: [ setup ]
 
-- name: "This Play is to Check Mongo Cluster Node Status"
-  ansible.builtin.import_playbook: status.yml
-  tags: [ status ]
+- name: "This Play is to Validate Mongo Cluster Node Status"
+  ansible.builtin.import_playbook: validate.yml
+  tags: [ validate ]
 
 - name: "This Play is to Check Mongo Cluster Node Status"
   ansible.builtin.import_playbook: cutover.yml
   tags: [ cutover ]
 
 - name: "This Play is for Mongo Cluster Data Validation"
-  ansible.builtin.import_playbook: validate.yml
-  tags: [ validate ]
+  ansible.builtin.import_playbook: datavalidate.yml
+  tags: [ datavalidate ]
 
 - name: "This Play is to Check Mongo Cluster Node Status"
   ansible.builtin.import_playbook: rollback.yml
