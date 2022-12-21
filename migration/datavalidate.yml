@@ -17,7 +17,7 @@
     - name: Mongo Cluster Data Validation
       script:
         executable: python3
-        cmd: ../files/validate.py {{ groups |  to_json | b64encode }}
+        cmd: ../files/datavalidate.py {{ groups |  to_json | b64encode }}
       register: output
 
     - name: Mongo Cluster Data Validation Status 
