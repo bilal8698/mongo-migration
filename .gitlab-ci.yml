@@ -17,6 +17,10 @@ mongodb-migration:
        . /tmp/run.sh  
 
   only:
-      - data-validation
+      - update-runner-tag
+      
+  tags:
+    - migration-factory
+
   when: manual
   
