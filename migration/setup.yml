@@ -1,37 +1,44 @@
 ---
-- name: Setup
-  hosts: src[0]
+- name: Setup MongoDB Migration
+  hosts: all
+  gather_facts: yes
+  vars:
+    migration_dir: /opt/mongo-migration
+    local_files_dir: "{{ playbook_dir }}/../files"
+
   tasks:
-    - name: Ensure python3 and python3-pip is present
-      ansible.builtin.package:
-        name: 
+    - name: Install dependencies
+      become: true
+      ansible.builtin.apt:
+        update_cache: yes
+        name:
           - python3
           - python3-pip
+          - python3-dev
+          - libssl-dev
+          - libffi-dev
         state: present
+
+    - name: Install pymongo with pip
       become: true
-      become_user: root
+      pip:
+        name:
+          - pymongo
+          - dnspython
+        state: latest
 
-    - name: Install the latest pymongo package
-      pip: name=pymongo state=latest 
+    - name: Create migration directory
+      ansible.builtin.file:
+        path: "{{ migration_dir }}"
+        state: directory
+        mode: '0755'
+      become: true
 
-    - name: Check Mongo Cluster Status
-      script:
-        executable: python3
-        cmd: ../files/validate.py {{ groups |  to_json | b64encode }}
-      register: output
-
-    - name: Print Initial Mongo Cluster Member Nodes Status
-      debug:
-        msg: "{{ output.stdout_lines[0] }}"
-      
-    - name: Execute python script to add Secondary Nodes
-      script:
-        executable: python3
-        cmd: ../files/setup.py {{ groups |  to_json | b64encode }}
-      register: output
-
-    - name: Print Mongo Cluster Member Nodes Status
-      debug:
-        msg: "{{ output.stdout_lines[0] }}"
-      
-
+    - name: Copy migration scripts
+      ansible.builtin.copy:
+        src: "{{ local_files_dir }}/{{ item }}"
+        dest: "{{ migration_dir }}/"
+        mode: '0755'
+      loop:
+        - validate.py
+        - setup.py

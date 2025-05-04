@@ -1,16 +1,33 @@
 #!/bin/bash
+set -eo pipefail
 
-# security authentication
-mkdir -p /root/.ssh
-echo -n $id_rsa_gojek_key | base64 -d > /root/.ssh/id_rsa_gojek_key
-chmod 600 /root/.ssh/id_rsa_gojek_key
-echo -n $id_rsa_os_login_key | base64 -d > /root/.ssh/id_rsa_os_login_key
-chmod 600 /root/.ssh/id_rsa_os_login_key
-echo -n $id_rsa_gojek_key_pub | base64 -d > /root/.ssh/id_rsa_gojek_key_pub
-chmod 600 /root/.ssh/id_rsa_gojek_key_pub
-echo $GOOGLE_APPLICATION_CREDENTIALS | base64 -d > /tmp/service-account.json
+# Setup secure environment
+umask 077
+TEMP_DIR=$(mktemp -d)
 
-# gcloud auth activate-service-account cmp-discovery-automation@systems-0001.iam.gserviceaccount.com --key-file=/tmp/service-account.json --project=systems-0001
-gcloud auth activate-service-account discovery-automation@systems-0001.iam.gserviceaccount.com --key-file=/tmp/service-account.json --project=rabbit-hole-integration-007
-#gcloud compute os-login ssh-keys add --key-file=/root/.ssh/id_rsa_gojek_key_pub
+cleanup() {
+    rm -rf "$TEMP_DIR"
+    rm -f /root/.ssh/id_rsa_*
+    rm -f /tmp/service-account.json
+}
+trap cleanup EXIT
+
+# Security authentication
+echo -n "$id_rsa_gojek_key" | base64 -d > "$TEMP_DIR/id_rsa_gojek_key"
+echo -n "$id_rsa_os_login_key" | base64 -d > "$TEMP_DIR/id_rsa_os_login_key"
+echo -n "$id_rsa_gojek_key_pub" | base64 -d > "$TEMP_DIR/id_rsa_gojek_key_pub"
+echo "$GOOGLE_APPLICATION_CREDENTIALS" | base64 -d > "$TEMP_DIR/service-account.json"
+
+# Validate keys
+if ! ssh-keygen -y -f "$TEMP_DIR/id_rsa_gojek_key" | diff - "$TEMP_DIR/id_rsa_gojek_key_pub"; then
+    echo "ERROR: Key validation failed" >&2
+    exit 1
+fi
+
+# GCP authentication
+gcloud auth activate-service-account \
+    --key-file="$TEMP_DIR/service-account.json" \
+    --project=rabbit-hole-integration-007
+
+# Prepare scripts
 cp files/run.sh /tmp/ && chmod 755 /tmp/run.sh

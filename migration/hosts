@@ -1,19 +1,7 @@
-[src]
-10.120.10.205
-10.120.10.183
+[source]
+source-vm ansible_host=35.224.224.253 ansible_user=bilal_ahmed
 
-[src:vars]
-ansible_ssh_user=sa_109509227270363147937
-ansible_ssh_private_key_file=/root/.ssh/id_rsa_gojek_key
-ansible_connection=ssh
-ansible_ssh_common_args='-o StrictHostKeyChecking="no"'
+[target]
+target-vm ansible_host=34.67.237.13 ansible_user=bilal_ahmed
 
-[dest]
-10.120.12.132
-10.120.13.78
 
-[dest:vars]
-ansible_ssh_user=sa_109509227270363147937
-ansible_ssh_private_key_file=/root/.ssh/id_rsa_gojek_key
-ansible_connection=ssh
-ansible_ssh_common_args='-o StrictHostKeyChecking="no"'
